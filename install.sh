@@ -50,11 +50,14 @@ fi
 CLAUDE_SKILLS_DIR="$HOME/.claude/skills"
 mkdir -p "$CLAUDE_SKILLS_DIR"
 
-# Create symlinks for skills
+# Create symlinks for skills (directory-level symlinks)
 for skill_dir in "$INSTALL_DIR/skills/"*/; do
     skill_name=$(basename "$skill_dir")
-    if [ -f "$skill_dir/skill.md" ]; then
-        ln -sf "$skill_dir/skill.md" "$CLAUDE_SKILLS_DIR/$skill_name.md"
+    if [ -f "$skill_dir/SKILL.md" ]; then
+        # Remove old file symlink if exists
+        rm -f "$CLAUDE_SKILLS_DIR/$skill_name.md"
+        # Create directory symlink (without trailing slash)
+        ln -sfn "${skill_dir%/}" "$CLAUDE_SKILLS_DIR/$skill_name"
     fi
 done
 

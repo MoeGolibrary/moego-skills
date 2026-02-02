@@ -32,7 +32,7 @@ moego-skills help
 ## 贡献新 Skill
 
 1. 在 `skills/` 目录下创建新文件夹，如 `skills/moego-xxx/`
-2. 创建 `skill.md` 定义 Skill 内容
+2. 创建 `SKILL.md` 定义 Skill 内容（注意大写）
 3. 如需要，在 `adapters/` 下添加工具适配配置
 4. 提交 PR
 
@@ -45,7 +45,7 @@ moego-skills/
 │   └── moego-skills        # CLI 命令
 ├── skills/
 │   └── moego-e2e/          # E2E 测试 Skill
-│       └── skill.md
+│       └── SKILL.md
 └── adapters/               # AI 工具适配配置
     ├── claude-code/
     └── cursor/
