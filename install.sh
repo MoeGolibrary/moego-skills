@@ -46,9 +46,11 @@ if [[ ":$PATH:" != *":$BIN_DIR:"* ]]; then
     echo -e "   export PATH=\"\$HOME/.local/bin:\$PATH\""
 fi
 
-# Setup Claude Code adapter
+# Setup adapters
 CLAUDE_SKILLS_DIR="$HOME/.claude/skills"
-mkdir -p "$CLAUDE_SKILLS_DIR"
+CODEX_SKILLS_DIR="$HOME/.codex/skills"
+OPENCODE_SKILLS_DIR="$HOME/.config/opencode/skills"
+mkdir -p "$CLAUDE_SKILLS_DIR" "$CODEX_SKILLS_DIR" "$OPENCODE_SKILLS_DIR"
 
 # Create symlinks for skills (directory-level symlinks)
 for skill_dir in "$INSTALL_DIR/skills/"*/; do
@@ -58,6 +60,8 @@ for skill_dir in "$INSTALL_DIR/skills/"*/; do
         rm -f "$CLAUDE_SKILLS_DIR/$skill_name.md"
         # Create directory symlink (without trailing slash)
         ln -sfn "${skill_dir%/}" "$CLAUDE_SKILLS_DIR/$skill_name"
+        ln -sfn "${skill_dir%/}" "$CODEX_SKILLS_DIR/$skill_name"
+        ln -sfn "${skill_dir%/}" "$OPENCODE_SKILLS_DIR/$skill_name"
     fi
 done
 

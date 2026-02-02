@@ -50,12 +50,17 @@ do_update() {
 
     # Re-link skills
     CLAUDE_SKILLS_DIR="$HOME/.claude/skills"
-    mkdir -p "$CLAUDE_SKILLS_DIR"
+    CODEX_SKILLS_DIR="$HOME/.codex/skills"
+    OPENCODE_SKILLS_DIR="$HOME/.config/opencode/skills"
+    mkdir -p "$CLAUDE_SKILLS_DIR" "$CODEX_SKILLS_DIR" "$OPENCODE_SKILLS_DIR"
 
     for skill_dir in "$SKILLS_DIR/"*/; do
         skill_name=$(basename "$skill_dir")
-        if [ -f "$skill_dir/skill.md" ]; then
-            ln -sf "$skill_dir/skill.md" "$CLAUDE_SKILLS_DIR/$skill_name.md"
+        if [ -f "$skill_dir/SKILL.md" ]; then
+            rm -f "$CLAUDE_SKILLS_DIR/$skill_name.md"
+            ln -sfn "${skill_dir%/}" "$CLAUDE_SKILLS_DIR/$skill_name"
+            ln -sfn "${skill_dir%/}" "$CODEX_SKILLS_DIR/$skill_name"
+            ln -sfn "${skill_dir%/}" "$OPENCODE_SKILLS_DIR/$skill_name"
         fi
     done
 
@@ -74,9 +79,9 @@ do_list() {
     for skill_dir in "$SKILLS_DIR/"*/; do
         if [ -d "$skill_dir" ]; then
             skill_name=$(basename "$skill_dir")
-            if [ -f "$skill_dir/skill.md" ]; then
-                # Extract description from skill.md (first line after "description:")
-                desc=$(grep -m1 "^description:" "$skill_dir/skill.md" 2>/dev/null | sed 's/description: *//' || echo "No description")
+            if [ -f "$skill_dir/SKILL.md" ]; then
+                # Extract description from SKILL.md (first line after "description:")
+                desc=$(grep -m1 "^description:" "$skill_dir/SKILL.md" 2>/dev/null | sed 's/description: *//' || echo "No description")
                 echo -e "  ${GREEN}$skill_name${NC}"
                 echo "    $desc"
                 echo ""

@@ -1,6 +1,6 @@
 # MoeGo Skills
 
-MoeGo 团队共享的 AI Agent Skills 仓库，支持 Claude Code、Cursor 等工具。
+MoeGo 团队共享的 AI Agent Skills 仓库，支持 Claude Code、Cursor、Codex、OpenCode 等工具。
 
 ## 安装
 
@@ -48,7 +48,9 @@ moego-skills/
 │       └── SKILL.md
 └── adapters/               # AI 工具适配配置
     ├── claude-code/
-    └── cursor/
+    ├── cursor/
+    ├── codex/
+    └── opencode/
 ```
 
 ## License
