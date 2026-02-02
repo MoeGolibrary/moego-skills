@@ -46,7 +46,13 @@ do_update() {
         git stash
     fi
 
+    old_rev=$(git rev-parse HEAD)
     git pull --ff-only
+    new_rev=$(git rev-parse HEAD)
+
+    if [ -z "${MOEGO_SKILLS_NO_REEXEC:-}" ] && [ "$old_rev" != "$new_rev" ]; then
+        MOEGO_SKILLS_NO_REEXEC=1 exec "$0" update
+    fi
 
     # Re-link skills
     CLAUDE_SKILLS_DIR="$HOME/.claude/skills"
