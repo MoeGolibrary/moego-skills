@@ -5,7 +5,7 @@ MoeGo 团队共享的 AI Agent Skills 仓库，支持 Claude Code、Cursor 等�
 ## 安装
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/MoeGolibrary/moego-skills/production/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/MoeGolibrary/moego-skills/main/install.sh | bash
 ```
 
 ## 使用

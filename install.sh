@@ -31,7 +31,7 @@ if [ -d "$INSTALL_DIR" ]; then
     git pull --ff-only
 else
     echo -e "${YELLOW}Cloning repository...${NC}"
-    git clone -b production "$REPO_URL" "$INSTALL_DIR"
+    git clone "$REPO_URL" "$INSTALL_DIR"
 fi
 
 # Install CLI command
