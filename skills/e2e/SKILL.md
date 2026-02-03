@@ -1,5 +1,5 @@
 ---
-name: moego-e2e
+name: moego:e2e
 description: E2E 测试规划与代码生成，遵循 MoeGo E2E 最佳实践
 triggers:
   - /moego:e2e

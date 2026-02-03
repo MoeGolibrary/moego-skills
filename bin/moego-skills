@@ -63,10 +63,25 @@ do_update() {
     for skill_dir in "$SKILLS_DIR/"*/; do
         skill_name=$(basename "$skill_dir")
         if [ -f "$skill_dir/SKILL.md" ]; then
-            rm -f "$CLAUDE_SKILLS_DIR/$skill_name.md"
-            ln -sfn "${skill_dir%/}" "$CLAUDE_SKILLS_DIR/$skill_name"
-            ln -sfn "${skill_dir%/}" "$CODEX_SKILLS_DIR/$skill_name"
-            ln -sfn "${skill_dir%/}" "$OPENCODE_SKILLS_DIR/$skill_name"
+            skill_display_name=$(sed -n 's/^name:[[:space:]]*//p' "$skill_dir/SKILL.md" | head -n 1)
+            link_name="${skill_display_name:-$skill_name}"
+
+            rm -f "$CLAUDE_SKILLS_DIR/$skill_name.md" "$CLAUDE_SKILLS_DIR/$link_name.md"
+
+            if [[ "$link_name" == *:* ]]; then
+                legacy_name="${link_name//:/-}"
+                if [ "$legacy_name" != "$link_name" ] && [ ! -d "$SKILLS_DIR/$legacy_name" ]; then
+                    rm -f "$CLAUDE_SKILLS_DIR/$legacy_name" "$CODEX_SKILLS_DIR/$legacy_name" "$OPENCODE_SKILLS_DIR/$legacy_name"
+                fi
+            fi
+
+            if [ "$skill_name" != "$link_name" ]; then
+                rm -f "$CLAUDE_SKILLS_DIR/$skill_name" "$CODEX_SKILLS_DIR/$skill_name" "$OPENCODE_SKILLS_DIR/$skill_name"
+            fi
+
+            ln -sfn "${skill_dir%/}" "$CLAUDE_SKILLS_DIR/$link_name"
+            ln -sfn "${skill_dir%/}" "$CODEX_SKILLS_DIR/$link_name"
+            ln -sfn "${skill_dir%/}" "$OPENCODE_SKILLS_DIR/$link_name"
         fi
     done
 
@@ -86,9 +101,11 @@ do_list() {
         if [ -d "$skill_dir" ]; then
             skill_name=$(basename "$skill_dir")
             if [ -f "$skill_dir/SKILL.md" ]; then
+                display_name=$(sed -n 's/^name:[[:space:]]*//p' "$skill_dir/SKILL.md" | head -n 1)
+                display_name="${display_name:-$skill_name}"
                 # Extract description from SKILL.md (first line after "description:")
                 desc=$(grep -m1 "^description:" "$skill_dir/SKILL.md" 2>/dev/null | sed 's/description: *//' || echo "No description")
-                echo -e "  ${GREEN}$skill_name${NC}"
+                echo -e "  ${GREEN}$display_name${NC}"
                 echo "    $desc"
                 echo ""
             fi

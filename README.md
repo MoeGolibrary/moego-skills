@@ -44,7 +44,7 @@ moego-skills/
 ├── bin/
 │   └── moego-skills        # CLI 命令
 ├── skills/
-│   └── moego-e2e/          # E2E 测试 Skill
+│   └── e2e/                # E2E 测试 Skill
 │       └── SKILL.md
 └── adapters/               # AI 工具适配配置
     ├── claude-code/

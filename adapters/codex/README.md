@@ -13,7 +13,7 @@ Codex 支持 skill 目录的符号链接。安装脚本会把每个 skill 目录
 
 ```bash
 mkdir -p ~/.codex/skills
-ln -sfn ~/.claude/plugins/moego-skills/skills/moego-e2e ~/.codex/skills/moego-e2e
+ln -sfn ~/.claude/plugins/moego-skills/skills/e2e ~/.codex/skills/moego:e2e
 ```
 
 如需项目级生效，可在仓库下创建 `.codex/skills` 并建立同样的链接。

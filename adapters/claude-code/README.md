@@ -7,7 +7,7 @@ Claude Code 通过 `~/.claude/skills/` 目录加载 Skills。
 安装脚本会自动创建符号链接（目录级）：
 
 ```
-~/.claude/skills/moego-e2e -> ~/.claude/plugins/moego-skills/skills/moego-e2e
+~/.claude/skills/moego:e2e -> ~/.claude/plugins/moego-skills/skills/e2e
 ```
 
 ## 手动配置
@@ -17,7 +17,7 @@ Claude Code 通过 `~/.claude/skills/` 目录加载 Skills。
 ```json
 {
   "skills": [
-    "~/.claude/plugins/moego-skills/skills/moego-e2e/SKILL.md"
+    "~/.claude/plugins/moego-skills/skills/e2e/SKILL.md"
   ]
 }
 ```

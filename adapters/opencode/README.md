@@ -14,7 +14,7 @@ OpenCode 会从以下位置发现 Skills：
 
 ```bash
 mkdir -p ~/.config/opencode/skills
-ln -sfn ~/.claude/plugins/moego-skills/skills/moego-e2e ~/.config/opencode/skills/moego-e2e
+ln -sfn ~/.claude/plugins/moego-skills/skills/e2e ~/.config/opencode/skills/moego:e2e
 ```
 
 如需项目级生效，可在仓库下创建 `.opencode/skills` 并建立同样的链接。
