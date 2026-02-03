@@ -30,46 +30,10 @@ AI Native 开发工作流，编排所有 superpowers 技能形成完整流程。
 
 正确示例：
 ```
-[执行启动前检查...]
-[检查 superpowers 是否安装...]
-
 开始 Phase 0: Requirements
 
 你要开发什么功能？请简要描述。
 ```
-
----
-
-## 启动前检查（Agent 必须执行）
-
-**在开始工作流之前，必须检查 superpowers 是否已安装：**
-
-```bash
-# 检查 superpowers 是否存在
-ls ~/.config/opencode/superpowers/skills 2>/dev/null || ls ~/.claude/superpowers/skills 2>/dev/null
-```
-
-**如果不存在，询问用户是否安装：**
-
-```
-检测到 superpowers 技能集未安装。superflow 依赖它来运行完整工作流。
-
-是否现在安装？
-1. 是，帮我安装
-2. 否，我稍后手动安装
-```
-
-**如果用户选择安装，执行：**
-
-```bash
-# OpenCode
-git clone https://github.com/obra/superpowers ~/.config/opencode/superpowers
-
-# Claude Code (如果适用)
-git clone https://github.com/obra/superpowers ~/.claude/superpowers
-```
-
-**安装完成后，继续工作流。**
 
 ---
 
@@ -85,9 +49,9 @@ git clone https://github.com/obra/superpowers ~/.claude/superpowers
 
 ## 前置要求
 
-此工作流依赖 [superpowers](https://github.com/obra/superpowers) 技能集。Agent 会在启动时自动检查并提示安装。
+此工作流依赖 [superpowers](https://github.com/obra/superpowers) 技能集。
 
-手动安装方式：
+安装方式：
 ```bash
 # OpenCode
 git clone https://github.com/obra/superpowers ~/.config/opencode/superpowers
