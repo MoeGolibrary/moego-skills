@@ -15,6 +15,7 @@ curl -fsSL https://raw.githubusercontent.com/MoeGolibrary/moego-skills/main/inst
 | Skill | 说明 | 调用方式 |
 |-------|------|----------|
 | moego:e2e | E2E 测试规划与代码生成 | `/moego:e2e` |
+| superflow | AI Native 开发工作流（需 superpowers） | `/superflow` |
 
 ## 管理命令
 
@@ -44,7 +45,9 @@ moego-skills/
 ├── bin/
 │   └── moego-skills        # CLI 命令
 ├── skills/
-│   └── e2e/                # E2E 测试 Skill
+│   ├── e2e/                # E2E 测试 Skill
+│   │   └── SKILL.md
+│   └── superflow/          # AI Native 开发工作流
 │       └── SKILL.md
 └── adapters/               # AI 工具适配配置
     ├── claude-code/
