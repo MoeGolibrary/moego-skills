@@ -1,8 +1,8 @@
 ---
-name: superflow
+name: moego:superflow
 description: AI Native 开发工作流 - 从需求到交付的完整流程，包含 brainstorming、planning、TDD 执行、双阶段审查和验证门控
 triggers:
-  - /superflow
+  - /moego:superflow
   - 开始新功能开发
   - 开始 bug 修复
 ---

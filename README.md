@@ -15,7 +15,7 @@ curl -fsSL https://raw.githubusercontent.com/MoeGolibrary/moego-skills/main/inst
 | Skill | 说明 | 调用方式 |
 |-------|------|----------|
 | moego:e2e | E2E 测试规划与代码生成 | `/moego:e2e` |
-| superflow | AI Native 开发工作流（需 superpowers） | `/superflow` |
+| moego:superflow | AI Native 开发工作流（需 superpowers） | `/moego:superflow` |
 
 ## 管理命令
 
@@ -32,10 +32,35 @@ moego-skills help
 
 ## 贡献新 Skill
 
-1. 在 `skills/` 目录下创建新文件夹，如 `skills/moego-xxx/`
+### Skill 命名规范
+
+所有 MoeGo Skills 必须使用 `moego:` 前缀，以便与其他来源的 skills 区分。
+
+| 规则 | 说明 | 示例 |
+|------|------|------|
+| 前缀 | 必须使用 `moego:` | `moego:e2e`, `moego:superflow` |
+| 目录名 | 简短描述性名称，无前缀 | `skills/e2e/`, `skills/superflow/` |
+| SKILL.md name 字段 | 完整名称，带前缀 | `name: moego:e2e` |
+| triggers | 使用完整名称 | `- /moego:e2e` |
+
+**示例 SKILL.md 头部：**
+
+```yaml
+---
+name: moego:your-skill-name
+description: 简短描述
+triggers:
+  - /moego:your-skill-name
+---
+```
+
+### 添加新 Skill 步骤
+
+1. 在 `skills/` 目录下创建新文件夹，如 `skills/your-skill/`
 2. 创建 `SKILL.md` 定义 Skill 内容（注意大写）
-3. 如需要，在 `adapters/` 下添加工具适配配置
-4. 提交 PR
+3. 确保 `name` 字段使用 `moego:` 前缀
+4. 如需要，在 `adapters/` 下添加工具适配配置
+5. 提交 PR
 
 ## 目录结构
 
