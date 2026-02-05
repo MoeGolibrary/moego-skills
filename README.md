@@ -16,6 +16,7 @@ curl -fsSL https://raw.githubusercontent.com/MoeGolibrary/moego-skills/main/inst
 |-------|------|----------|
 | moego:e2e | E2E 测试规划与代码生成 | `/moego:e2e` |
 | moego:superflow | AI Native 开发工作流（需 superpowers） | `/moego:superflow` |
+| moego:datadog | Datadog 日志/Trace/依赖查询 | `/moego:datadog` |
 
 ## 管理命令
 
@@ -70,6 +71,9 @@ moego-skills/
 ├── bin/
 │   └── moego-skills        # CLI 命令
 ├── skills/
+│   ├── datadog/            # Datadog 查询 Skill
+│   │   ├── SKILL.md
+│   │   └── scripts/
 │   ├── e2e/                # E2E 测试 Skill
 │   │   └── SKILL.md
 │   └── superflow/          # AI Native 开发工作流
