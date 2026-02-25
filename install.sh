@@ -67,13 +67,13 @@ for skill_dir in "$INSTALL_DIR/skills/"*/; do
         if [[ "$link_name" == *:* ]]; then
             legacy_name="${link_name//:/-}"
             if [ "$legacy_name" != "$link_name" ] && [ ! -d "$INSTALL_DIR/skills/$legacy_name" ]; then
-                rm -f "$CLAUDE_SKILLS_DIR/$legacy_name" "$CODEX_SKILLS_DIR/$legacy_name" "$OPENCODE_SKILLS_DIR/$legacy_name"
+                rm -rf "$CLAUDE_SKILLS_DIR/$legacy_name" "$CODEX_SKILLS_DIR/$legacy_name" "$OPENCODE_SKILLS_DIR/$legacy_name"
             fi
         fi
 
         # Remove link using directory name when it differs from the declared name.
         if [ "$skill_name" != "$link_name" ]; then
-            rm -f "$CLAUDE_SKILLS_DIR/$skill_name" "$CODEX_SKILLS_DIR/$skill_name" "$OPENCODE_SKILLS_DIR/$skill_name"
+            rm -rf "$CLAUDE_SKILLS_DIR/$skill_name" "$CODEX_SKILLS_DIR/$skill_name" "$OPENCODE_SKILLS_DIR/$skill_name"
         fi
 
         # Create directory symlink (without trailing slash)
