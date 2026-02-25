@@ -71,12 +71,12 @@ do_update() {
             if [[ "$link_name" == *:* ]]; then
                 legacy_name="${link_name//:/-}"
                 if [ "$legacy_name" != "$link_name" ] && [ ! -d "$SKILLS_DIR/$legacy_name" ]; then
-                    rm -f "$CLAUDE_SKILLS_DIR/$legacy_name" "$CODEX_SKILLS_DIR/$legacy_name" "$OPENCODE_SKILLS_DIR/$legacy_name"
+                    rm -rf "$CLAUDE_SKILLS_DIR/$legacy_name" "$CODEX_SKILLS_DIR/$legacy_name" "$OPENCODE_SKILLS_DIR/$legacy_name"
                 fi
             fi
 
             if [ "$skill_name" != "$link_name" ]; then
-                rm -f "$CLAUDE_SKILLS_DIR/$skill_name" "$CODEX_SKILLS_DIR/$skill_name" "$OPENCODE_SKILLS_DIR/$skill_name"
+                rm -rf "$CLAUDE_SKILLS_DIR/$skill_name" "$CODEX_SKILLS_DIR/$skill_name" "$OPENCODE_SKILLS_DIR/$skill_name"
             fi
 
             ln -sfn "${skill_dir%/}" "$CLAUDE_SKILLS_DIR/$link_name"
