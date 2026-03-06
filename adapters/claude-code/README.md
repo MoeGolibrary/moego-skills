@@ -5,8 +5,8 @@ Claude Code 通过 Plugin System 原生支持 MoeGo Plugin，无需手工配置 
 ## 推荐安装方式（Plugin System）
 
 ```bash
-/plugin marketplace add MoeGolibrary/moego-ai-marketplace
-/plugin install moego@moego-ai-marketplace
+/plugin marketplace add MoeGolibrary/moego-ai-plugin
+/plugin install moego@moego-ai-plugin
 ```
 
 安装后 Slash Command 自动可用：`/moego:superflow`、`/moego:e2e` 等。
