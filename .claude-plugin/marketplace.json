@@ -1,0 +1,27 @@
+{
+  "name": "moego-ai-plugin",
+  "description": "MoeGo engineering team plugin marketplace",
+  "owner": {
+    "name": "MoeGo Engineering",
+    "email": "engineering@moego.pet"
+  },
+  "metadata": {
+    "description": "E2E testing, Superflow AI-native workflow, Datadog observability, and LLM writing skills for the MoeGo pet services platform.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "moego",
+      "description": "MoeGo engineering team plugin — E2E testing, Superflow AI-native workflow, Datadog observability, and LLM writing skills for the MoeGo pet services platform.",
+      "author": {
+        "name": "MoeGo Engineering",
+        "email": "engineering@moego.pet"
+      },
+      "source": {
+        "source": "url",
+        "url": "https://github.com/MoeGolibrary/moego-ai-plugin.git"
+      },
+      "homepage": "https://github.com/MoeGolibrary/moego-ai-plugin"
+    }
+  ]
+}
