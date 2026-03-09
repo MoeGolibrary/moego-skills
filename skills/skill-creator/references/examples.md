@@ -4,42 +4,47 @@
 
 ## 1. Description 编写
 
+> **核心规则**：description 只写触发条件和排除范围，不概括 SKILL 的工作流程。测试表明 Agent 会按 description 走捷径而跳过正文。
+
 ### ✅ 好的 description
 
 ```yaml
-# 三要素齐全，简洁精准，纯英语
+# 只写触发条件 + 排除范围，纯英语
 description: >
-  Write or update unit tests for @moego/ui components. Activate when the user
-  asks to write, add, or update tests, or mentions "unit test", "test coverage".
+  Use when the user asks to write, add, or update unit tests for @moego/ui
+  components, or mentions "unit test", "test coverage".
   Not for Storybook interaction tests, visual regression, or E2E.
 ```
 
 分析：
 
-- 做什么：Write or update unit tests for @moego/ui components
+- 以 "Use when" 开头，聚焦触发条件
 - 激活词：write, add, update tests, "unit test", "test coverage"
-- 不做什么：Not for Storybook interaction tests, visual regression, or E2E
+- 排除范围：Not for Storybook interaction tests, visual regression, or E2E
+- 没有概括 SKILL 会做什么（不写"Write or update unit tests"这类功能描述）
 - 长度：约 220 字符，在理想范围内
 
 ### ❌ 差的 description
 
 ```yaml
-# 问题 1：太模糊，缺少触发词和排除范围
+# 问题 1：概括了工作流程 — Agent 会按此执行而跳过正文
+description: >
+  Guide writing Agent Skills by researching domain, planning structure,
+  drafting SKILL.md, and verifying with checklist. Activate when user
+  asks to create a skill.
+
+# 问题 2：太模糊，缺少触发词和排除范围
 description: Help with testing.
 
-# 问题 2：中英混合
+# 问题 3：中英混合
 description: >
   为 @moego/ui 组件编写单元测试。Activate when user mentions "test".
 
-# 问题 3：包含实现细节，太长
+# 问题 4：包含实现细节，太长
 description: >
   Write unit tests using vitest with @testing-library/react and storybook/test
   userEvent. Tests should use act() for interactions, document.querySelector
-  for Portal components, vi.fn() for callbacks. Support controlled/uncontrolled
-  patterns with rerender, classNames override with slot helpers, deprecated
-  props compatibility testing, and ARIA attribute verification. Activate when
-  the user asks to write tests or mentions "unit test", "test coverage",
-  "testing". Not for Storybook interaction tests or E2E tests.
+  for Portal components, vi.fn() for callbacks...
 ```
 
 ---
@@ -346,95 +351,95 @@ description: >
 
 ---
 
-## 8. 效果评估：子 Agent A/B 对比测试
+## 8. 反合理化模式（纪律执行型 SKILL）
 
-SKILL 写完后，除了格式检查，还应通过子 Agent 做隔离的 A/B 对比测试来评估实际效果。参考 [LangChain Evaluating Skills](https://blog.langchain.com/evaluating-skills/) 的方法论。
+纪律执行型 SKILL（强制规则类，如 TDD、code-review）需要预判 Agent 在压力下的合理化行为并主动堵漏。
 
-### 为什么必须用子 Agent
+### ✅ 好的反合理化设计
 
-直接让当前 Agent 自己评估"有没有效果"，它会脑补一个结论。子 Agent 的上下文是隔离的——Agent A 完全不知道 SKILL 的存在，Agent B 只知道 SKILL 告诉它的内容。这样差异才真实。
+```markdown
+## Red Flags — 发现以下念头时立即停下
 
-### 操作步骤
+- 已经写了代码再补测试
+- "手动验证过了，不需要自动化测试"
+- "这次情况特殊，可以跳过"
+- "用户说不需要，所以我不做"
+- "精神上遵守了，只是字面上略有不同"
 
-#### 1. 定义 2-3 个代表性任务
+**以上全部意味着：删除代码，从头开始。**
 
-选 SKILL 目标领域内的典型场景，覆盖不同子类型。例如对 skill-creator：
+| 借口 | 反驳 |
+| ---- | ---- |
+| "太简单不需要测试" | 简单的代码也会出错，测试只需 30 秒 |
+| "先写后测效果一样" | 先写测试 = "应该做什么"；后补测试 = "做了什么"，本质不同 |
+| "用户要求跳过" | 质量标准不因用户要求而降低 |
 
-- 任务 1："帮我创建一个 code-review 的 SKILL"（从零创建，Ruleset 型）
-- 任务 2："审查 e2e 这个 SKILL 有没有问题"（审查现有，Workflow 型）
-
-#### 2. 每个任务跑两个子 Agent
-
-**子 Agent A（无 SKILL 基线）**：prompt 只给任务描述 + AGENTS.md，不提供 SKILL 的任何文件。
-
-```text
-prompt 模板：
-
-你是一个 AI 编码助手。以下是项目的 AGENTS.md：
-<agents_md>
-[AGENTS.md 全文]
-</agents_md>
-
-任务：[任务描述]
-
-要求：不要读取或修改任何文件，只输出你的方案文本。
+**违反规则的字面意思就是违反规则的精神。**
 ```
 
-**子 Agent B（有 SKILL）**：prompt 给任务描述 + AGENTS.md + SKILL 全套文件（SKILL.md + 所有 references）。
+分析：
 
-```text
-prompt 模板：
+- Red Flags 清单让 Agent 能自检"正在合理化"
+- 借口-反驳表针对具体的逃避模式
+- "字面 = 精神"声明堵住了整类漏洞
+- 最终行动明确（删除代码，从头开始）
 
-你是一个 AI 编码助手。以下是项目的 AGENTS.md：
-<agents_md>
-[AGENTS.md 全文]
-</agents_md>
+### ❌ 差的反合理化设计
 
-以下是你必须遵循的 SKILL 编写指南及其参考文档：
-<skill_md>
-[SKILL.md 全文]
-</skill_md>
-<specification>
-[references/specification.md 全文]
-</specification>
-<checklist>
-[references/writing-checklist.md 全文]
-</checklist>
-<examples>
-[references/examples.md 全文（排除本节内容避免递归）]
-</examples>
+```markdown
+## 注意事项
 
-任务：[任务描述]
-
-要求：不要读取或修改任何文件，严格按照 SKILL 编写指南执行，只输出方案文本。
+请遵守规则，不要跳过步骤。
 ```
 
-关键：两个子 Agent 的任务描述必须完全相同，只有上下文不同。
+分析：
 
-#### 3. 对比评估
+- 没有列出具体的合理化借口
+- Agent 在压力下会轻松绕过这种模糊声明
+- 没有提供自检机制
 
-对每组 A/B 输出，逐项打分：
+---
 
-| 评估维度               | 检查方法                                              | 权重 |
-| ---------------------- | ----------------------------------------------------- | ---- |
-| Frontmatter 合规       | name/version/description 是否符合规范                 | 高   |
-| Description 质量       | 是否包含三要素、纯英语、长度合理                      | 高   |
-| 结构合理性             | 是否选择了正确的 SKILL 类型和对应结构                 | 高   |
-| 流程可执行性           | 每个 Step 是否有输入/操作/输出                        | 中   |
-| 验证闭环               | 是否有验证步骤和失败回退                              | 中   |
-| Progressive Disclosure | 是否合理拆分正文和 references                         | 中   |
-| 信息密度               | 是否只包含 Agent 无法自行推断的内容                   | 低   |
-| 项目约定遵守           | 禁止项（triggers、moego- 前缀、硬编码凭证等）是否遵守 | 高   |
+## 9. Token 压缩技巧
 
-#### 4. 判定与迭代
+SKILL 正文有 ≤ 1,500 词的限制，以下技巧帮助在有限空间内传递最大信息量。
 
-- B 在多数高权重维度明显优于 A → SKILL 有效
-- A/B 差异不大 → SKILL 内容可能冗余，需精简
-- B 在某些维度反而更差 → SKILL 中有误导性内容，需修正
+### 用交叉引用替代重复
 
-### 信息密度测试（可选）
+```markdown
+# ❌ 差：在 SKILL 中重复其他 Skill 的内容
+当搜索时，启动子 Agent，使用以下模板...
+[20 行重复的指令]
 
-对 SKILL 中的每个主要章节，删除后重跑子 Agent B：
+# ✅ 好：引用其他 Skill
+子 Agent 调度流程见 [references/subagent-dispatch.md](references/subagent-dispatch.md)。
+```
 
-- 删除后输出质量不变 → 该章节冗余，考虑删除
-- 删除后输出质量下降 → 该章节有价值，保留
+### 用工具 --help 替代参数文档
+
+```markdown
+# ❌ 差：在 SKILL 中列举所有参数
+search-conversations 支持 --text, --both, --after DATE, --before DATE, --limit N...
+
+# ✅ 好：引导查看帮助
+search-conversations 支持多种模式和过滤器，运行 --help 查看详情。
+```
+
+### 压缩示例
+
+```markdown
+# ❌ 差：冗长示例（42 词）
+用户："之前 React Router 的认证错误是怎么处理的？"
+Agent："我来搜索过去的对话，查找 React Router 认证相关的模式。"
+[启动子 Agent，搜索查询："React Router authentication error handling 401"]
+
+# ✅ 好：最小示例（15 词）
+用户："React Router 认证错误怎么处理的？"
+→ 启动子 Agent 搜索 → 综合结果
+```
+
+### 核心原则
+
+- 一个优秀的示例胜过多个平庸的示例
+- 可从代码/文档推断的内容不写入 SKILL
+- 代码模板放 references，正文只放决策逻辑

@@ -8,7 +8,7 @@
 | ------------- | ------ | ------------------------------------------------------- | ----------------------------- |
 | `name`        | string | 1-64 字符，kebab-case，必须与目录名一致                 | `component-unit-testing`      |
 | `version`     | string | 语义化版本号（SemVer）                                  | `1.0.0`                       |
-| `description` | string | 1-1024 字符，描述 SKILL 的功能、触发条件和排除范围      | 见下方 description 编写指南   |
+| `description` | string | 1-1024 字符，只写触发条件和排除范围，不概括工作流程    | 见下方 description 编写指南   |
 
 ## 可选字段
 
@@ -17,7 +17,7 @@
 | `license`       | string   | SPDX 许可证标识符，如 `MIT`、`Apache-2.0`      |
 | `compatibility` | string[] | 兼容的 AI 助手列表，如 `["claude", "copilot"]` |
 | `metadata`      | object   | 自定义键值对，用于扩展信息                     |
-| `allowed-tools` | string[] | SKILL 允许使用的工具列表                       |
+| `allowed-tools` | string[] | SKILL 允许使用的工具列表（不常用，多数 SKILL 无需设置） |
 
 ## `name` 字段规则
 
@@ -34,17 +34,15 @@
 
 ## `description` 编写指南
 
-description 是 AI 助手判断是否激活 SKILL 的唯一依据。必须包含三个要素：
+description 是 AI 助手判断是否激活 SKILL 的唯一依据。必须包含两个要素，且只写触发条件，不概括工作流程。
 
-### 1. 做什么（What）
+> **关键发现**：测试表明，当 description 概括了 SKILL 的工作流程时，Agent 会直接按 description 执行而跳过阅读正文。例如 description 写"code review between tasks"会导致 Agent 只做一次 review，即使正文流程图明确要求两次。去掉工作流程概括后 Agent 才会正确读取正文。
 
-一句话说明 SKILL 的核心功能。
+### 1. 触发条件（When）
 
-### 2. 激活关键词（When）
+以 "Use when" 开头，列出用户可能使用的触发词、短语和场景症状。描述问题和场景，不描述 SKILL 会做什么。
 
-列出用户可能使用的触发词和短语，帮助 AI 匹配。
-
-### 3. 不做什么（Not）
+### 2. 排除范围（Not）
 
 明确排除范围，避免误激活。
 
@@ -52,19 +50,30 @@ description 是 AI 助手判断是否激活 SKILL 的唯一依据。必须包含
 
 ```yaml
 description: >
-  [做什么的一句话描述]。Activate when the user asks to [触发动作],
-  or mentions "[关键词1]", "[关键词2]", "[关键词3]".
+  Use when the user asks to [触发动作], or mentions "[关键词1]", "[关键词2]".
   Not for [排除范围1], [排除范围2], or [排除范围3].
 ```
 
 ### 示例对比
 
 ```yaml
-# ✅ 好的 description — 三要素齐全，简洁精准
+# ✅ 好的 description — 只写触发条件和排除范围
 description: >
-  Write or update unit tests for @moego/ui components. Activate when the user
-  asks to write, add, or update tests, or mentions "unit test", "test coverage".
+  Use when the user asks to write, add, or update unit tests for @moego/ui
+  components, or mentions "unit test", "test coverage".
   Not for Storybook interaction tests, visual regression, or E2E.
+
+# ✅ 好的 description — 触发条件清晰，无工作流程概括
+description: >
+  Use when the user asks to create, write, review, or improve a SKILL,
+  or mentions "skill authoring", "write a skill", "skill best practices".
+  Not for using or invoking existing skills, nor for writing general prompts.
+
+# ❌ 差的 description — 概括了工作流程，Agent 会走捷径
+description: >
+  Guide writing Agent Skills by researching domain, planning structure,
+  drafting SKILL.md, and verifying with checklist. Activate when user
+  asks to create a skill.
 
 # ❌ 差的 description — 缺少触发词和排除范围
 description: >
@@ -78,9 +87,7 @@ description: >
 description: >
   Write unit tests for React components using vitest and @testing-library/react
   with storybook/test userEvent, supporting Portal components with document
-  queries, controlled/uncontrolled patterns, classNames override testing,
-  deprecated props compatibility, and accessibility attribute verification.
-  Activate when...
+  queries, controlled/uncontrolled patterns, classNames override testing...
 ```
 
 ### 长度控制

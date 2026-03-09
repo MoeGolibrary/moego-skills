@@ -1,8 +1,7 @@
 ---
 name: skill-creator
 description: >
-  Guide writing, reviewing, and refactoring Agent Skills (SKILL.md).
-  Activate when the user asks to create, write, review, or improve a SKILL,
+  Use when the user asks to create, write, review, or improve a SKILL,
   or mentions "skill authoring", "write a skill", "improve skill", "skill best practices".
   Not for using or invoking existing skills, nor for writing general prompts or documentation.
 ---
@@ -17,10 +16,11 @@ description: >
 
 1. **Progressive Disclosure** — 三层渐进式加载：metadata (~100 tokens) → instructions (≤ 1,500 词) → resources (按需)
 2. **Body 精简** — SKILL.md 的 frontmatter + 核心指令部分 ≤ 1,500 词，超出部分拆到 `references/`
-3. **Trigger 精准** — `description` 必须明确说明"做什么 + 什么时候激活 + 不做什么"
+3. **Trigger 精准** — `description` 只写触发条件和排除范围，不概括工作流程（Agent 会按 description 走捷径而跳过正文）
 4. **Workflow 可执行** — 每个 Step 有明确的输入、操作、输出，AI 可机械执行
-5. **Verify 闭环** — 必须有验证步骤和失败回退机制
+5. **Verify 闭环** — 必须有验证步骤和失败回退机制；纪律执行型 SKILL 必须做子 Agent A/B 对比测试
 6. **Only Non-Inferable** — 只写 Agent 无法从代码/文档中自行推断的信息；过多上下文反而降低 Agent 性能（参见 [ETH Zurich 研究](https://www.infoq.com/news/2026/03/agents-context-file-value-review/)）
+7. **Anti-Rationalization** — 预判 Agent 在压力下的合理化借口，用明确的反驳表和 Red Flags 清单堵住漏洞
 
 ---
 
@@ -29,7 +29,7 @@ description: >
 在编写任何 SKILL 前必须内化以下约束。详细的字段规范见 [references/specification.md](references/specification.md)。
 
 - **Frontmatter 必填**：`name`（kebab-case，1-64 字符，与目录名一致）、`version`（语义化版本号）和 `description`（1-1024 字符，纯英语）
-- **description 三要素**：做什么 + 激活关键词 + 不做什么（负面触发）
+- **description 两要素**：触发条件（"Use when..."开头）+ 排除范围（"Not for..."）；不概括工作流程
 - **目录结构**：源文件在 `skills/<name>/`，脚本路径引用 `${CLAUDE_PLUGIN_ROOT}/skills/<name>/scripts/`
 - **正文长度**：frontmatter + 核心指令部分 ≤ 1,500 词（references/ 不计入）
 - **正文语言**：SKILL.md 正文和 references 建议使用中文；frontmatter `description` 必须使用英语
@@ -108,6 +108,7 @@ description: >
 - 代码模板放 references，正文只放决策逻辑
 - 验证步骤必须包含失败回退（最多 N 轮 + 上报用户）
 - 只写 Agent 无法自行推断的内容——可推断的常识、通用编码规范不写入
+- 纪律执行型 SKILL 必须包含反合理化设计：Red Flags 清单 + 借口-反驳表（参见 [references/examples.md](references/examples.md) 第 8 节）
 - 脚本使用环境变量获取凭证，不硬编码 API Key 或密码
 - 全文不出现 `deprecated`、`废弃`、`已弃用`
 
@@ -125,13 +126,16 @@ description: >
 - [ ] frontmatter `name` 与目录名一致，无 `moego-` 前缀
 - [ ] frontmatter 包含 `version` 字段
 - [ ] 无 `triggers` 字段
-- [ ] `description` 纯英语，包含三要素
+- [ ] `description` 纯英语，以 "Use when" 开头，只写触发条件 + 排除范围
+- [ ] `description` 不概括 SKILL 的工作流程
 - [ ] 每个 Step 有输入/操作/输出
 - [ ] 有验证步骤和失败回退
+- [ ] 纪律执行型 SKILL 包含反合理化设计（Red Flags + 借口-反驳表）
 - [ ] references 引用路径正确
 - [ ] 脚本不硬编码凭证，使用环境变量
 - [ ] 全文不出现 `deprecated`、`废弃`、`已弃用`
 - [ ] 运行 `install.sh` 确认 adapter symlink 正确
+- [ ] 纪律执行型 SKILL 已完成子 Agent A/B 对比测试（详见 [references/evaluation.md](references/evaluation.md)）
 
 **失败回退**：发现问题则修正后重新检查，最多 2 轮。
 

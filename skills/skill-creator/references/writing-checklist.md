@@ -9,7 +9,8 @@
 - [ ] `name` 无 `moego-` 前缀
 - [ ] `version` 使用语义化版本号（如 `1.0.0`）
 - [ ] `description` 是纯英语（不中英混合）
-- [ ] `description` 包含三要素：做什么 + 激活关键词 + 不做什么
+- [ ] `description` 以 "Use when" 开头，只写触发条件 + 排除范围
+- [ ] `description` 不概括 SKILL 的工作流程（避免 Agent 走捷径跳过正文）
 - [ ] `description` 长度在 150-300 字符之间（不超过 1024）
 - [ ] 使用 YAML 多行语法 `>` 书写 description
 - [ ] 无 `triggers` 字段
@@ -62,12 +63,18 @@
 | 内容是否冗余？           | 对每段问"Agent 能否自行推断？"，能则删除              |
 | 有安全风险吗？           | 检查脚本是否硬编码凭证，references 是否含敏感信息     |
 
-## 效果评估（可选但推荐）
+## 效果评估
 
-使用子 Agent A/B 对比测试（详见 [references/examples.md](references/examples.md) 第 8 节）：
+纪律执行型 SKILL（强制规则类）必须做子 Agent A/B 对比测试（详见 [references/evaluation.md](references/evaluation.md)）。其他类型推荐但非强制。
 
-- [ ] 定义了 2-3 个代表性任务
+- [ ] 定义了 2-3 个代表性任务（纪律执行型需包含压力场景）
 - [ ] 子 Agent A（无 SKILL）已跑出基线输出
 - [ ] 子 Agent B（有 SKILL）已跑出测试输出
 - [ ] B 在多数高权重维度明显优于 A
 - [ ] 尝试删除某章节后重跑 B，输出质量未变差的章节已精简
+
+## 反合理化检查（纪律执行型 SKILL 必查）
+
+- [ ] 是否预判了 Agent 在压力下的常见借口并写入反驳表
+- [ ] 是否有 Red Flags 清单帮助 Agent 自检"正在合理化"
+- [ ] 规则声明是否堵住了"精神 vs 字面"的漏洞（如"违反字面就是违反精神"）
