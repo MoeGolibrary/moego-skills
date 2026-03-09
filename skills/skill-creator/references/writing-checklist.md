@@ -43,7 +43,7 @@
 - [ ] 源文件在 `skills/<name>/`
 - [ ] 脚本路径使用 `${CLAUDE_PLUGIN_ROOT}/skills/<name>/scripts/` 引用
 - [ ] 运行 `install.sh` 确认 adapter symlink 正确
-- [ ] 正文和 references 使用中文
+- [ ] 正文和 references 建议使用中文（非强制）
 - [ ] JSDoc / 代码注释使用英语（如有代码示例）
 - [ ] frontmatter description 使用英语
 - [ ] 脚本不硬编码凭证或 API Key — 使用环境变量

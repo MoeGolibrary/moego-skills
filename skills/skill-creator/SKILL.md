@@ -32,7 +32,7 @@ description: >
 - **description 三要素**：做什么 + 激活关键词 + 不做什么（负面触发）
 - **目录结构**：源文件在 `skills/<name>/`，脚本路径引用 `${CLAUDE_PLUGIN_ROOT}/skills/<name>/scripts/`
 - **正文长度**：frontmatter + 核心指令部分 ≤ 1,500 词（references/ 不计入）
-- **中文正文**：SKILL.md 正文和 references 使用中文；frontmatter `description` 使用英语
+- **正文语言**：SKILL.md 正文和 references 建议使用中文；frontmatter `description` 必须使用英语
 - **引用路径**：references 中的文件用相对路径引用，如 `[references/xxx.md](references/xxx.md)`
 - **禁止项**：不使用 `triggers` 字段；`name` 不加 `moego-` 前缀；脚本不硬编码凭证或 API Key
 - **已弃用内容零提及**：全文不出现 `deprecated`、`废弃`、`已弃用`
