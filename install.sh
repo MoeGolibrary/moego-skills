@@ -50,21 +50,23 @@ fi
 CLAUDE_SKILLS_DIR="$HOME/.claude/skills"
 CODEX_SKILLS_DIR="$HOME/.codex/skills"
 OPENCODE_SKILLS_DIR="$HOME/.config/opencode/skills"
-mkdir -p "$CLAUDE_SKILLS_DIR" "$CODEX_SKILLS_DIR" "$OPENCODE_SKILLS_DIR"
+KIRO_SKILLS_DIR="$HOME/.kiro/skills"
+mkdir -p "$CLAUDE_SKILLS_DIR" "$CODEX_SKILLS_DIR" "$OPENCODE_SKILLS_DIR" "$KIRO_SKILLS_DIR"
 
 # Create symlinks for skills (directory-level symlinks)
 for skill_dir in "$INSTALL_DIR/skills/"*/; do
     skill_name=$(basename "$skill_dir")
     if [ -f "$skill_dir/SKILL.md" ]; then
         # Clean up legacy symlinks with various naming formats
-        rm -rf "$CLAUDE_SKILLS_DIR/$skill_name" "$CODEX_SKILLS_DIR/$skill_name" "$OPENCODE_SKILLS_DIR/$skill_name"
-        rm -rf "$CLAUDE_SKILLS_DIR/moego-$skill_name" "$CODEX_SKILLS_DIR/moego-$skill_name" "$OPENCODE_SKILLS_DIR/moego-$skill_name"
+        rm -rf "$CLAUDE_SKILLS_DIR/$skill_name" "$CODEX_SKILLS_DIR/$skill_name" "$OPENCODE_SKILLS_DIR/$skill_name" "$KIRO_SKILLS_DIR/$skill_name"
+        rm -rf "$CLAUDE_SKILLS_DIR/moego-$skill_name" "$CODEX_SKILLS_DIR/moego-$skill_name" "$OPENCODE_SKILLS_DIR/moego-$skill_name" "$KIRO_SKILLS_DIR/moego-$skill_name"
         rm -rf "$CLAUDE_SKILLS_DIR/moego:$skill_name" "$CODEX_SKILLS_DIR/moego:$skill_name" "$OPENCODE_SKILLS_DIR/moego:$skill_name"
 
         # Claude Code: skip symlink — Plugin System handles auto-discovery via .claude-plugin/
-        # Codex / OpenCode: use moego- prefix to maintain namespace
+        # Codex / OpenCode / Kiro: use moego- prefix to maintain namespace
         ln -sfn "${skill_dir%/}" "$CODEX_SKILLS_DIR/moego-$skill_name"
         ln -sfn "${skill_dir%/}" "$OPENCODE_SKILLS_DIR/moego-$skill_name"
+        ln -sfn "${skill_dir%/}" "$KIRO_SKILLS_DIR/moego-$skill_name"
     fi
 done
 
