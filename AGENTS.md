@@ -10,9 +10,10 @@ skills/<name>/SKILL.md      # Skill 定义（每个 Skill 一个目录）
 skills/<name>/references/   # Skill 参考文档（按需加载，不常驻上下文）
 skills/<name>/scripts/      # Skill 脚本（bash/python）
 adapters/                   # 非 Claude Code 工具的安装适配（Codex/OpenCode/Cursor）
+bin/                        # CLI 管理命令
 hooks/hooks.json            # 预留：会话级 hook
 docs/adr/                   # 架构决策记录
-install.sh                  # 兼容旧有安装流程的脚本
+install.sh                  # 兼容旧有安装流程的脚本（依赖 bin/）
 ```
 
 ## Skill 开发
@@ -38,9 +39,10 @@ install.sh                  # 兼容旧有安装流程的脚本
    ---
    ```
 
-3. Body 使用祈使句，核心内容 ≤ 1,500 词；详细文档放 `references/`
+3. Body 使用祈使句，SKILL.md 的 frontmatter + 核心指令部分 ≤ 1,500 词（`references/` 目录下的文件不计入此限制）
 4. 脚本放 `skills/<your-skill>/scripts/`，路径引用 `${CLAUDE_PLUGIN_ROOT}/skills/<your-skill>/scripts/`
 5. 验证：确认 SKILL.md 的 `name` 字段无 `moego-` 前缀，无 `triggers` 字段
+6. 验证：运行 `install.sh` 确认新 Skill 能正确创建 adapter symlink
 
 ### SKILL.md 写作约束
 
@@ -54,7 +56,7 @@ install.sh                  # 兼容旧有安装流程的脚本
 - 文件编码：UTF-8（无 BOM）
 - Markdown：标准 Markdown，代码块用反引号包裹
 - Shell 脚本：`#!/usr/bin/env bash`，`set -e`
-- Python 脚本：使用 `uv run` 执行，依赖 `requests`、`python-dateutil`
+- Python 脚本：使用 `uv run` 执行（[uv 安装指南](https://docs.astral.sh/uv/getting-started/installation/)），依赖 `requests`、`python-dateutil`
 - 文档语言：中文（SKILL.md 的 description 字段用英文，Body 可中文）
 
 ## 提交规范
@@ -78,7 +80,7 @@ install.sh                  # 兼容旧有安装流程的脚本
 
 - 位置：`docs/adr/NNNN-<title>.md`
 - ADR 一旦 Accepted 不可修改；推翻需创建新 ADR 并标注 `Superseded by ADR-XXXX`
-- 状态流转：`Proposed` → `Accepted` → `Deprecated` | `Superseded`
+- 状态流转：`Proposed` → `Accepted` → `Retired` | `Superseded`
 
 ## 多工具兼容
 
