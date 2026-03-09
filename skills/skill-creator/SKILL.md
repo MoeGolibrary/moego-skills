@@ -1,5 +1,6 @@
 ---
 name: skill-creator
+version: 1.0.0
 description: >
   Use when the user asks to create, write, review, or improve a SKILL,
   or mentions "skill authoring", "write a skill", "improve skill", "skill best practices".
