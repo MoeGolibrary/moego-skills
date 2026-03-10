@@ -33,4 +33,4 @@ done
 
 安装后可通过 `/moego-superflow`、`/moego-e2e` 等 slash command 调用，或由 Kiro 根据 description 自动匹配加载。
 
-如需工作区级生效，可在项目下创建 `.kiro/skills` 并建立同样的链接。工作区级 Skills 在名称冲突时优先于用户级。
+如需工作区级生效，可在项目下创建 `.kiro/skills` 并将 Skill 目录复制至其中。工作区级 Skills 在名称冲突时优先于用户级。
