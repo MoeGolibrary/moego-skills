@@ -89,7 +89,7 @@ install.sh                  # 兼容旧有安装流程的脚本（依赖 bin/）
 | Claude Code | `/plugin install moego@moego-ai-plugin`              | `/moego:<skill>` |
 | Codex       | symlink 至 `~/.codex/skills/moego-<skill>`           | `moego-<skill>`  |
 | OpenCode    | symlink 至 `~/.config/opencode/skills/moego-<skill>` | `moego-<skill>`  |
-| Kiro        | symlink 至 `~/.kiro/skills/moego-<skill>`            | `moego-<skill>`  |
+| Kiro        | copy 至 `~/.kiro/skills/moego-<skill>`               | `moego-<skill>`  |
 | Cursor      | `.cursorrules` 引用 SKILL.md 内容                    | 手动配置         |
 
-修改 Skill 后需验证：adapter symlink 脚本（`install.sh`）能正确为新 Skill 创建链接。
+修改 Skill 后需验证：adapter 脚本（`install.sh`）能正确为新 Skill 创建 symlink（Codex/OpenCode）或复制目录（Kiro）。

@@ -63,14 +63,18 @@ for skill_dir in "$INSTALL_DIR/skills/"*/; do
         rm -rf "$CLAUDE_SKILLS_DIR/moego:$skill_name" "$CODEX_SKILLS_DIR/moego:$skill_name" "$OPENCODE_SKILLS_DIR/moego:$skill_name"
 
         # Claude Code: skip symlink — Plugin System handles auto-discovery via .claude-plugin/
-        # Codex / OpenCode / Kiro: use moego- prefix to maintain namespace
+        # Codex / OpenCode: use moego- prefix symlink to maintain namespace
         ln -sfn "${skill_dir%/}" "$CODEX_SKILLS_DIR/moego-$skill_name"
         ln -sfn "${skill_dir%/}" "$OPENCODE_SKILLS_DIR/moego-$skill_name"
-        ln -sfn "${skill_dir%/}" "$KIRO_SKILLS_DIR/moego-$skill_name"
+
+        # Kiro: copy instead of symlink — Kiro does not discover folder-level symlinks
+        rm -rf "$KIRO_SKILLS_DIR/moego-$skill_name"
+        cp -r "${skill_dir%/}" "$KIRO_SKILLS_DIR/moego-$skill_name"
     fi
 done
 
 echo -e "${GREEN}✅ MoeGo Skills installed successfully!${NC}"
+echo -e "${YELLOW}⚠️  Kiro 用户注意：安装/更新 Skills 后需重启 Kiro 才能真正激活（仅 UI 显示不代表已完整加载）。${NC}"
 echo ""
 echo "Available commands:"
 echo "  moego-skills update  - Update all skills"
