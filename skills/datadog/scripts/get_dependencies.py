@@ -16,10 +16,6 @@ import json
 API_KEY = os.environ.get("DD_API_KEY")
 APP_KEY = os.environ.get("DD_APP_KEY")
 SITE = os.environ.get("DD_SITE", "https://api.us5.datadoghq.com")
-
-if not API_KEY or not APP_KEY:
-    print("Error: DD_API_KEY and DD_APP_KEY must be set.")
-    sys.exit(1)
 DEFAULT_ENV = "ns-testing"
 
 def get_dependencies(service_name, env=DEFAULT_ENV):

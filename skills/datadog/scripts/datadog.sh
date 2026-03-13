@@ -8,8 +8,9 @@ API_KEY="${DD_API_KEY}"
 APP_KEY="${DD_APP_KEY}"
 SITE="${DD_SITE:-https://api.us5.datadoghq.com}"
 
+# 2. Fallback (Warn if missing)
 if [ -z "$API_KEY" ] || [ -z "$APP_KEY" ]; then
-  echo "Error: DD_API_KEY and DD_APP_KEY must be set."
+  echo "Error: DD_API_KEY and DD_APP_KEY must be set in environment"
   exit 1
 fi
 

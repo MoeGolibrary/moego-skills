@@ -19,10 +19,6 @@ API_KEY = os.environ.get("DD_API_KEY")
 APP_KEY = os.environ.get("DD_APP_KEY")
 SITE = os.environ.get("DD_SITE", "https://api.us5.datadoghq.com")
 
-if not API_KEY or not APP_KEY:
-    print("Error: DD_API_KEY and DD_APP_KEY must be set.")
-    sys.exit(1)
-
 def query_logs(query, from_time=None, to_time=None, limit=10):
     url = f"{SITE}/api/v2/logs/events/search"
     headers = {
