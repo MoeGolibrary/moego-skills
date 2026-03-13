@@ -1,6 +1,6 @@
 {
   "name": "moego",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "MoeGo engineering team plugin — E2E testing, Superflow AI-native workflow, Datadog observability, and LLM writing skills for the MoeGo pet services platform.",
   "author": {
     "name": "MoeGo Engineering",
